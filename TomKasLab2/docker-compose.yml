@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  tomkas.coursesapi:
+    image: ${DOCKER_REGISTRY-}tomkascoursesapi
+    build:
+      context: .
+      dockerfile: TomKasCoursesAPI/Dockerfile
+    depends_on:
+      - tomkas.sqldata
+
+  tomkas.studentsapi:
+    image: ${DOCKER_REGISTRY-}tomkasstudentsapi
+    build:
+      context: .
+      dockerfile: TomKasStudentsAPI/Dockerfile
+    depends_on:
+      - tomkas.sqldata
+
+  tomkas.sqldata:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
+  tomkas.gateway:
+    image: ${DOCKER_REGISTRY-}tomkasapigateway
+    build:
+      context: .
+      dockerfile: TomKasAPIGateway/Dockerfile
+    depends_on:
+      - tomkas.coursesapi
+      - tomkas.studentsapi

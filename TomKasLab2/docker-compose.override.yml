@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+  tomkas.coursesapi:
+    container_name: tomkas.coursesapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5081:80"
+
+  tomkas.studentsapi:
+    container_name: tomkas.studentsapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5082:80"
+
+  tomkas.sqldata:
+    container_name: tomkas.sqldata
+    environment:
+      SA_PASSWORD: "My!P@ssw0rd1"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+
+  tomkas.gateway:
+    container_name: tomkas.gateway
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5083:80"
