@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: TomKasCoursesAPI/Dockerfile
     depends_on:
-      - tomkas.sqldata
+      - tomkas.coursessqldata
 
   tomkas.studentsapi:
     image: ${DOCKER_REGISTRY-}tomkasstudentsapi
@@ -15,9 +15,12 @@ services:
       context: .
       dockerfile: TomKasStudentsAPI/Dockerfile
     depends_on:
-      - tomkas.sqldata
+      - tomkas.studentssqldata
 
-  tomkas.sqldata:
+  tomkas.studentssqldata:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
+  tomkas.coursessqldata:
     image: mcr.microsoft.com/mssql/server:2019-latest
 
   tomkas.gateway:

@@ -15,13 +15,25 @@ services:
     ports:
       - "5082:80"
 
-  tomkas.sqldata:
-    container_name: tomkas.sqldata
+  tomkas.studentssqldata:
+    container_name: tomkas.studentssqldata
     environment:
       SA_PASSWORD: "My!P@ssw0rd1"
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
+    volumes:
+      - tomkas.studentssqldata:/var/opt/mssql
+
+  tomkas.coursessqldata:
+    container_name: tomkas.coursessqldata
+    environment:
+      SA_PASSWORD: "My!P@ssw0rd2"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1434:1433"
+    volumes:
+      - tomkas.coursessqldata:/var/opt/mssql
 
   tomkas.gateway:
     container_name: tomkas.gateway
@@ -29,3 +41,9 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "5083:80"
+
+volumes:
+  tomkas.studentssqldata:
+    external: false
+  tomkas.coursessqldata:
+    external: false
