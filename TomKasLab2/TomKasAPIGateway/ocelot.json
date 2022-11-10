@@ -13,6 +13,18 @@
       "UpstreamHttpMethod": [ "Get", "Post" ]
     },
     {
+      "DownstreamPathTemplate": "/api/Students/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tomkas.studentsapi",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/Students/{id}",
+      "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/Courses",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
