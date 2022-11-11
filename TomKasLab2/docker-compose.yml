@@ -31,3 +31,9 @@ services:
     depends_on:
       - tomkas.coursesapi
       - tomkas.studentsapi
+
+  tomkas.health:
+    image: ${DOCKER_REGISTRY-}tomkashealth
+    build:
+      context: .
+      dockerfile: TomKasHealthMonitor/Dockerfile

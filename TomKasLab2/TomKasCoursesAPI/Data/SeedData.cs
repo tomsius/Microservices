@@ -10,7 +10,7 @@ public class SeedData
         using var context = new TomKasCoursesAPIContext(serviceProvider.GetRequiredService<DbContextOptions<TomKasCoursesAPIContext>>());
 
         context.Database.EnsureCreated();
-        // Look for any Student.
+        // Look for any Course.
         if (context.Course.Any())
         {
             return; // DB has been seeded
