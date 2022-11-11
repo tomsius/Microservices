@@ -5,11 +5,13 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TomKasStudentsAPI", "TomKasStudentsAPI\TomKasStudentsAPI.csproj", "{E5EFCF23-87F7-4579-8FCE-28B1E0242900}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TomKasCoursesAPI", "TomKasCoursesAPI\TomKasCoursesAPI.csproj", "{F0E685CA-6001-42DD-9FC5-9A791EA13722}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TomKasCoursesAPI", "TomKasCoursesAPI\TomKasCoursesAPI.csproj", "{F0E685CA-6001-42DD-9FC5-9A791EA13722}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{1F1AD940-AEAE-4F5C-90CF-7711D2FF8106}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TomKasAPIGateway", "TomKasAPIGateway\TomKasAPIGateway.csproj", "{A7405E99-3772-42BE-ADEE-91AF01FB8620}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TomKasAPIGateway", "TomKasAPIGateway\TomKasAPIGateway.csproj", "{A7405E99-3772-42BE-ADEE-91AF01FB8620}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TomKasHealthMonitor", "TomKasHealthMonitor\TomKasHealthMonitor.csproj", "{62B85D58-0643-4F99-8B7F-B8561668F10A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{A7405E99-3772-42BE-ADEE-91AF01FB8620}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7405E99-3772-42BE-ADEE-91AF01FB8620}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7405E99-3772-42BE-ADEE-91AF01FB8620}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62B85D58-0643-4F99-8B7F-B8561668F10A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62B85D58-0643-4F99-8B7F-B8561668F10A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62B85D58-0643-4F99-8B7F-B8561668F10A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62B85D58-0643-4F99-8B7F-B8561668F10A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

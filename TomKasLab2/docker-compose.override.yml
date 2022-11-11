@@ -42,6 +42,18 @@ services:
     ports:
       - "5083:80"
 
+  tomkas.health:
+    container_name: tomkas.health
+    environment:
+      - HealthChecksUI__HealthChecks__0__Name=TomKas Gateway HTTP Check
+      - HealthChecksUI__HealthChecks__0__Uri=http://tomkas.gateway/hc
+      - HealthChecksUI__HealthChecks__1__Name=TomKas Students API HTTP Check
+      - HealthChecksUI__HealthChecks__1__Uri=http://tomkas.studentsapi/hc
+      - HealthChecksUI__HealthChecks__2__Name=TomKas Courses API HTTP Check
+      - HealthChecksUI__HealthChecks__2__Uri=http://tomkas.coursesapi/hc
+    ports:
+      - "5084:80"
+
 volumes:
   tomkas.studentssqldata:
     external: false
