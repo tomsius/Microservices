@@ -37,3 +37,6 @@ services:
     build:
       context: .
       dockerfile: TomKasHealthMonitor/Dockerfile
+
+  tomkas.seq:
+    image: datalust/seq:latest

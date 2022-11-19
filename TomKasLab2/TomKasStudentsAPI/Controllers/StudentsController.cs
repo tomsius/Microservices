@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using TomKasStudentsAPI.Data;
 using TomKasStudentsAPI.Models;
 
@@ -10,30 +11,42 @@ namespace TomKasStudentsAPI.Controllers;
 public class StudentsController : ControllerBase
 {
     private readonly TomKasStudentsAPIContext _context;
+    private readonly ILogger<StudentsController> _logger;
 
-    public StudentsController(TomKasStudentsAPIContext context)
+    public StudentsController(TomKasStudentsAPIContext context, ILogger<StudentsController> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     // GET: api/Students
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Student>>> GetStudent()
     {
-        return await _context.Student.ToListAsync();
+        DateTimeOffset start = DateTimeOffset.UtcNow;
+        var data = await _context.Student.ToListAsync();
+        DateTimeOffset end = DateTimeOffset.UtcNow;
+
+        _logger.LogInformation("Processed {Route} {Method} method in {Elapsed} ms.", "api/Students", "GET", end - start);
+
+        return data;
     }
 
     // GET: api/Students/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Student>> GetStudent(int id)
     {
+        DateTimeOffset start = DateTimeOffset.UtcNow;
         var student = await _context.Student.Include(s => s.Enrollments).AsNoTracking().FirstOrDefaultAsync(s => s.ID == id);
+        DateTimeOffset end = DateTimeOffset.UtcNow;
 
         if (student == null)
         {
+            _logger.LogWarning("Processed {Route}{Id} {Method} method in {Elapsed}ms but no student was found.", "api/Students/", id, "GET", end - start);
             return NotFound();
         }
 
+        _logger.LogInformation("Processed {Route}{Id} {Method} method in {Elapsed}ms. Returned {@Student}.", "api/Students/", id, "GET", end - start, student);
         return student;
     }
 

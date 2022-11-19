@@ -1,9 +1,21 @@
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Serilog;
 using TomKasAPIGateway.CustomHealthChecks;
 using TomKasAPIGateway.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+.MinimumLevel.Verbose()
+        .Enrich.WithProperty("ApplicationContext", "TomKasAPIGateway")
+        .Enrich.FromLogContext()
+        .WriteTo.Console()
+        .WriteTo.Seq(builder.Configuration["Serilog:SeqServerUrl"])
+        .ReadFrom.Configuration(builder.Configuration)
+        .CreateLogger();
+
+Log.Information("Configuring web host ({ApplicationContext})...", "TomKasAPIGateway");
 
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("ocelot.json");
 
@@ -20,6 +32,8 @@ var conf = new OcelotPipelineConfiguration()
             DateTimeOffset selfStart = DateTimeOffset.Now;
             DateTimeOffset selfEnd = DateTimeOffset.Now;
 
+            //Log.Information("Checking health of {TomKasStudentsUrlHC}...", builder.Configuration["TomKasStudentsUrlHC"]);
+
             DateTimeOffset db1Start = DateTimeOffset.Now;
             CustomHealthResult db1Result = await new CustomUriHealthCheck(builder.Configuration["TomKasStudentsUrlHC"]).CheckHealthAsync();
             DateTimeOffset db1End = DateTimeOffset.Now;
@@ -33,6 +47,8 @@ var conf = new OcelotPipelineConfiguration()
             {
                 db1Json = $"\"TomKasStudentsAPI-Check\": {{\"data\": {{}},\"description\": \"{db1Result.Exception}\",\"duration\": \"{db1End - db1Start}\",\"exception\": \"{db1Result.Exception}\",\"status\": \"{db1Result.Status}\",\"tags\": [\"tomkasstudentsapi\"]}}";
             }
+
+            //Log.Information("Checking health of {TomKasCoursesUrlHC}...", builder.Configuration["TomKasCoursesUrlHC"]);
 
             DateTimeOffset db2Start = DateTimeOffset.Now;
             CustomHealthResult db2Result = await new CustomUriHealthCheck(builder.Configuration["TomKasCoursesUrlHC"]).CheckHealthAsync();
@@ -64,4 +80,17 @@ var conf = new OcelotPipelineConfiguration()
 
 app.UseOcelot(conf).Wait();
 
-app.Run();
+Log.Information("Starting web host ({ApplicationContext})...", "TomKasAPIGateway");
+
+try
+{
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "TomKasAPIGateway crashed!");
+}
+finally
+{
+    Log.CloseAndFlush();
+}

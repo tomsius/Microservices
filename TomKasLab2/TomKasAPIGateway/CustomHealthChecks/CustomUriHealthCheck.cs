@@ -1,4 +1,5 @@
-﻿using TomKasAPIGateway.Models;
+﻿using Serilog;
+using TomKasAPIGateway.Models;
 
 namespace TomKasAPIGateway.CustomHealthChecks;
 
@@ -13,6 +14,8 @@ public class CustomUriHealthCheck
 
     public async Task<CustomHealthResult> CheckHealthAsync()
     {
+        Log.Information("Checking health of {Uri}...", Uri);
+
         HttpClient client = new();
 
         try
@@ -21,15 +24,17 @@ public class CustomUriHealthCheck
 
             if (((int)response.StatusCode >= 200 && (int)response.StatusCode <= 299) == false)
             {
+                Log.Warning("{Uri} is not responding with code in 200...299 range, the current status is {StatusCode}.", Uri, response.StatusCode);
                 return new CustomHealthResult("Unhealthy", $"{Uri} is not responding with code in 200...299 range, the current status is {response.StatusCode}.");
             }
 
+            Log.Information("{Uri} is healthy.", Uri);
             return new CustomHealthResult("Healthy", "");
         }
         catch (Exception)
         {
+            Log.Warning("{Uri} cannot be reached.", Uri);
             return new CustomHealthResult("Unhealthy", $"{Uri} cannot be reached.");
         }
-        
     }
 }

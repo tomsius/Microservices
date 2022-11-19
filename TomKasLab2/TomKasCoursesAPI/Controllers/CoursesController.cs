@@ -10,30 +10,43 @@ namespace TomKasCoursesAPI.Controllers;
 public class CoursesController : ControllerBase
 {
     private readonly TomKasCoursesAPIContext _context;
+    private readonly ILogger<CoursesController> _logger;
 
-    public CoursesController(TomKasCoursesAPIContext context)
+    public CoursesController(TomKasCoursesAPIContext context, ILogger<CoursesController> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     // GET: api/Courses
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Course>>> GetCourse()
     {
-        return await _context.Course.ToListAsync();
+        DateTimeOffset start = DateTimeOffset.UtcNow;
+        var data = await _context.Course.ToListAsync();
+        DateTimeOffset end = DateTimeOffset.UtcNow;
+
+        _logger.LogInformation("Processed {Route} {Method} method in {Elapsed} ms.", "api/Courses", "GET", end - start);
+
+        return data;
     }
 
     // GET: api/Courses/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Course>> GetCourse(int id)
     {
+        DateTimeOffset start = DateTimeOffset.UtcNow;
         var course = await _context.Course.FindAsync(id);
+        DateTimeOffset end = DateTimeOffset.UtcNow;
+        
 
         if (course == null)
         {
+            _logger.LogWarning("Processed {Route}{Id} {Method} method in {Elapsed}ms but no student was found.", "api/Courses/", id, "GET", end - start);
             return NotFound();
         }
 
+        _logger.LogInformation("Processed {Route}{Id} {Method} method in {Elapsed}ms. Returned {@Student}.", "api/Courses/", id, "GET", end - start, course);
         return course;
     }
 

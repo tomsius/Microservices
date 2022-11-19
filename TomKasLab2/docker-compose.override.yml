@@ -54,8 +54,19 @@ services:
     ports:
       - "5084:80"
 
+  tomkas.seq:
+    container_name: tomkas.seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "5085:80"
+    volumes:
+      - tomkas.seqdata:/var/opt/mssql
+
 volumes:
   tomkas.studentssqldata:
     external: false
   tomkas.coursessqldata:
+    external: false
+  tomkas.seqdata:
     external: false

@@ -1,7 +1,19 @@
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+.MinimumLevel.Verbose()
+        .Enrich.WithProperty("ApplicationContext", "TomKasHealthMonitor")
+        .Enrich.FromLogContext()
+        .WriteTo.Console()
+        .WriteTo.Seq(builder.Configuration["Serilog:SeqServerUrl"])
+        .ReadFrom.Configuration(builder.Configuration)
+        .CreateLogger();
+
+Log.Information("Configuring web host ({ApplicationContext})...", "TomKasHealthMonitor");
 
 // Add services to the container.
 
@@ -48,4 +60,17 @@ app.UseEndpoints(endpoints =>
     });
 });
 
-app.Run();
+Log.Information("Starting web host ({ApplicationContext})...", "TomKasHealthMonitor");
+
+try
+{
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "TomKasHealthMonitor crashed!");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
