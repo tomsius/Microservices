@@ -34,9 +34,9 @@ export class EditStudentModal extends Component {
                 },
                 body: JSON.stringify({
                     'ID': this.props.studentId,
-                    'FirstMidName': this.state.firstName,
-                    'LastName': this.state.lastName,
-                    'EnrollmentDate': this.state.date,
+                    'FirstMidName': this.state.firstName === "" ? this.props.studentFirstName : this.state.firstName,
+                    'LastName': this.state.lastName === "" ? this.props.studentLastName : this.state.lastName,
+                    'EnrollmentDate': this.state.date === "" ? this.props.studentEnrollmentDate : this.state.date,
                     'Enrollments': []
                 })
             })
