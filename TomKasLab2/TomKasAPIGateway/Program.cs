@@ -21,7 +21,17 @@ builder.Configuration.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("
 
 builder.Services.AddOcelot();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder => builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
 var app = builder.Build();
+
+app.UseCors();
 
 var conf = new OcelotPipelineConfiguration()
 {
