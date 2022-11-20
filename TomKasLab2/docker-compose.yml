@@ -40,3 +40,6 @@ services:
 
   tomkas.seq:
     image: datalust/seq:latest
+
+  tomkas.web:
+    image: ${DOCKER_REGISTRY-}tomkaswebapp

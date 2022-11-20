@@ -63,6 +63,11 @@ services:
     volumes:
       - tomkas.seqdata:/var/opt/mssql
 
+  tomkas.web:
+    container_name: tomkas.web
+    ports:
+      - "5086:80"
+
 volumes:
   tomkas.studentssqldata:
     external: false
