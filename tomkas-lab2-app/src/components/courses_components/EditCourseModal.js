@@ -39,6 +39,7 @@ export class EditCourseModal extends Component {
             })
             .then((response) => {
                 if (response.ok) {
+                    this.props.onEdit();
                     this.setState({
                         snackbaropen: true,
                         snackbarmessage: "Kurso duomenys atnaujinti.",

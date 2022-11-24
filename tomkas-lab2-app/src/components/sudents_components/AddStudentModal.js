@@ -41,6 +41,7 @@ export class AddStudentModal extends Component {
             })
             .then((response) => {
                 if (response.ok) {
+                    this.props.onAdd();
                     return response.json();
                 }
 
@@ -60,7 +61,7 @@ export class AddStudentModal extends Component {
                         snackbaropen: true,
                         snackbarmessage: "Nepavyko pridėti studento: " + error.message
                     });
-                })
+                });
     }
 
     render() {

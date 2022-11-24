@@ -13,6 +13,8 @@ export class Courses extends Component {
             addModalShow: false,
             editModalShow: false
         };
+
+        this.refreshList = this.refreshList.bind(this);
     }
 
     componentDidMount() {
@@ -29,18 +31,16 @@ export class Courses extends Component {
             });
     }
 
-
     deleteCourse(id, title) {
         if (window.confirm("Ar tikrai norite ištrinti kursą \"" + title + "\"?")) {
             fetch("http://localhost:5083/courses/" + id,
                 {
                     method: 'DELETE'
                 })
+                .then((response) => {
+                    this.refreshList();
+                });
         }
-    }
-
-    componentDidUpdate() {
-        this.refreshList();
     }
 
     render() {
@@ -86,6 +86,7 @@ export class Courses extends Component {
                                             courseId={courseId}
                                             courseTitle={courseTitle}
                                             courseCredits={courseCredits}
+                                            onEdit={this.refreshList}
                                         />
                                     </ButtonToolbar>
                                 </td>
@@ -97,7 +98,7 @@ export class Courses extends Component {
                     <Button variant="primary" onClick={() => this.setState({ addModalShow: true })}>
                         Naujas kursas
                     </Button>
-                    <AddCourseModal show={this.state.addModalShow} onHide={addModalClose} />
+                    <AddCourseModal show={this.state.addModalShow} onHide={addModalClose} onAdd={this.refreshList} />
                 </ButtonToolbar>
             </div>
         );

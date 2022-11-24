@@ -42,6 +42,7 @@ export class EditStudentModal extends Component {
             })
             .then((response) => {
                 if (response.ok) {
+                    this.props.onEdit();
                     this.setState({
                         snackbaropen: true,
                         snackbarmessage: "Studento duomenys atnaujinti.",

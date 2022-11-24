@@ -40,6 +40,7 @@ export class AddCourseModal extends Component {
             })
             .then((response) => {
                 if (response.ok) {
+                    this.props.onAdd();
                     return response.json();
                 }
 
@@ -59,7 +60,7 @@ export class AddCourseModal extends Component {
                         snackbaropen: true,
                         snackbarmessage: "Nepavyko pridėti kurso: " + error.message
                     });
-                })
+                });
     }
 
     render() {
